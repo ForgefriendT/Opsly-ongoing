@@ -133,8 +133,99 @@ export default function Login({ onNavigate }) {
           </motion.button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-opsly-border text-center">
-          <p className="text-xs text-opsly-secondary">
+        <div className="mt-8 pt-6 border-t border-opsly-border text-center space-y-4">
+          <div className="space-y-2">
+            <p className="text-[10px] font-bold text-opsly-accent uppercase tracking-wider">⚡ Interactive Demo Scenarios</p>
+            <p className="text-[11px] text-opsly-secondary">Click a preset below to instantly experience OpslyDesk under different plan tiers &amp; niches:</p>
+            
+            <div className="grid grid-cols-2 gap-2 text-left pt-1">
+              <button
+                type="button"
+                onClick={async () => {
+                  setEmail('guest.free@opsly.com')
+                  setPassword('Password123!')
+                  setLoading(true)
+                  try {
+                    await login('guest.free@opsly.com', 'Password123!')
+                  } catch {
+                    try {
+                      const { signup } = useAuth()
+                      await signup('guest.free@opsly.com', 'Password123!', 'Alex Morgan', 'Free Handyman Services', '+15550000000')
+                    } catch { setError('Demo account login ready — click Log In.') }
+                  } finally { setLoading(false) }
+                }}
+                className="p-2.5 bg-opsly-input hover:bg-opsly-hover border border-opsly-border rounded-xl transition-all text-xs cursor-pointer flex flex-col justify-between"
+              >
+                <span className="font-bold text-opsly-text text-[11px]">Free Tier Scenario</span>
+                <span className="text-[9px] text-opsly-muted mt-0.5">30 command limit, basic CRM</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  setEmail('guest.starter@opsly.com')
+                  setPassword('Password123!')
+                  setLoading(true)
+                  try {
+                    await login('guest.starter@opsly.com', 'Password123!')
+                  } catch {
+                    try {
+                      const { signup } = useAuth()
+                      await signup('guest.starter@opsly.com', 'Password123!', 'Sarah Jenkins', 'Jenkins Plumbing & Drain', '+15550000000')
+                    } catch { setError('Demo account login ready — click Log In.') }
+                  } finally { setLoading(false) }
+                }}
+                className="p-2.5 bg-opsly-input hover:bg-opsly-hover border border-opsly-border rounded-xl transition-all text-xs cursor-pointer flex flex-col justify-between"
+              >
+                <span className="font-bold text-opsly-text text-[11px]">Starter Scenario</span>
+                <span className="text-[9px] text-opsly-muted mt-0.5">Scheduler &amp; Invoices enabled</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  setEmail('guest.growth@opsly.com')
+                  setPassword('Password123!')
+                  setLoading(true)
+                  try {
+                    await login('guest.growth@opsly.com', 'Password123!')
+                  } catch {
+                    try {
+                      const { signup } = useAuth()
+                      await signup('guest.growth@opsly.com', 'Password123!', 'Marcus Vance', 'Vance Roofing & Exterior', '+15550000000')
+                    } catch { setError('Demo account login ready — click Log In.') }
+                  } finally { setLoading(false) }
+                }}
+                className="p-2.5 bg-opsly-input hover:bg-opsly-hover border border-opsly-border rounded-xl transition-all text-xs cursor-pointer flex flex-col justify-between"
+              >
+                <span className="font-bold text-opsly-text text-[11px]">Growth Scenario</span>
+                <span className="text-[9px] text-opsly-muted mt-0.5">Contracts, Team &amp; Inbox</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  setEmail('guest.pro@opsly.com')
+                  setPassword('Password123!')
+                  setLoading(true)
+                  try {
+                    await login('guest.pro@opsly.com', 'Password123!')
+                  } catch {
+                    try {
+                      const { signup } = useAuth()
+                      await signup('guest.pro@opsly.com', 'Password123!', 'Elena Rostova', 'Rostova Climate Systems', '+15550000000')
+                    } catch { setError('Demo account login ready — click Log In.') }
+                  } finally { setLoading(false) }
+                }}
+                className="p-2.5 bg-opsly-input hover:bg-opsly-hover border border-opsly-accent/40 rounded-xl transition-all text-xs cursor-pointer flex flex-col justify-between"
+              >
+                <span className="font-bold text-opsly-accent text-[11px]">Pro HVAC Enterprise</span>
+                <span className="text-[9px] text-opsly-muted mt-0.5">All features, AI Tax &amp; Chasers</span>
+              </button>
+            </div>
+          </div>
+
+          <p className="text-xs text-opsly-secondary pt-2">
             Don't have an account?{' '}
             <button
               onClick={() => onNavigate('signup')}

@@ -5,9 +5,9 @@ if (typeof global !== 'undefined' && !global.WebSocket) {
 
 import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase Admin Client using server-side secret key
+// Initialize Supabase Admin Client using server-side secret key or publishable key
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://kqyxhnnouwdbwbmwbohl.supabase.co'
-const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY || ''
+const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_5nMWYIFwhaWTxfnDevmOJA_4s1eTIXl'
 
 const supabaseAdmin = createClient(supabaseUrl, supabaseSecretKey, {
   auth: {
