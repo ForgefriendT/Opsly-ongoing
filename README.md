@@ -1,126 +1,103 @@
 # ⚡ OpslyDesk — AI-Powered Field Service & Business Operating System
 
-> **OpslyDesk** is an enterprise-grade field service management and business operating system built for modern service businesses (HVAC, Landscaping, Roofing, Cleaning, Salon, Painting, Contracting, and more). It combines CRM, dispatch scheduling, automated invoicing, AI-assisted natural language command execution, digital contract/document management, and real-time P&L analytics into a unified web portal.
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://opsly-theta.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Opsly--ongoing-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ForgefriendT/Opsly-ongoing/)
+
+> **Live Production Demo**: [https://opsly-theta.vercel.app](https://opsly-theta.vercel.app)
 
 ---
 
-## 🌟 Key Features & Capabilities
+> [!IMPORTANT]  
+> **🔒 Privacy, Security & Public Demo Notice**  
+> For security, compliance, and privacy reasons, **live backend database connections, third-party secret API keys (Twilio SMS gateways, live Stripe/Paddle payment processing, Google/QuickBooks OAuth tokens, and real customer PII) are strictly disabled or operating in isolated sandbox simulation mode in this public demonstration environment.** The app renders simulated demo data and client-side fallback workflows so you can safely explore the full UI/UX, workflow interactions, and operational features.
+
+---
+
+## 🎯 What OpslyDesk Solves
+
+Small to mid-sized field service businesses (HVAC technicians, roofers, landscapers, commercial cleaners, contractors, and stylists) traditionally suffer from **fragmented, overly complicated software tools**:
+- **Delayed Invoicing & Cash Flow Bottlenecks**: Invoices take days to generate, and overdue payment follow-ups are performed manually or forgotten.
+- **Complex UI & Steep Learning Curves**: Field technicians waste hours navigating dense enterprise software just to log a job or check schedule changes.
+- **Lack of Real-Time Profitability Insight**: Business owners struggle to track real job margins, P&L statements, and AR aging across different service niches.
+- **Scattered Communication**: Client messages, estimate approvals, change orders, and service contracts live in separate email threads and spreadsheets.
+
+**OpslyDesk** unifies field service management into a single, intuitive AI-driven operating system. It allows owners and technicians to manage their entire operational lifecycle—from natural language AI commands and dispatch scheduling to digital contract signing and instant invoice collection.
+
+---
+
+## ✨ Key Capabilities & What It Can Do
 
 ### 🧠 1. AI Natural Language Command Engine
-- **Natural Language Execution**: Control your business through simple conversational prompts (e.g., *"Invoice Sarah $350 for roof repair"*, *"Schedule Mike on Friday at 9am"*, *"Show overdue payments"*).
-- **Streaming SSE Pipeline**: Live streaming response pipeline (`/api/command`) supporting real-time streaming, context tracking, token limit enforcement, and action dispatching.
-- **Smart Context Routing**: Contextual intelligence that understands company niche terminology overrides and translates queries into Supabase database operations.
+Control your entire operations by simply typing or speaking conversational prompts:
+- *"Invoice Sarah $350 for roof repair"*
+- *"Schedule Mike on Friday at 9am for system inspection"*
+- *"Show me my outstanding balance and net profit this month"*
+- *"Create an estimate for the Henderson job"*
+- *"Run late payment chasers for overdue invoices"*
 
-### 💼 2. Multi-Niche Architecture
-- **Dynamic Niche Workflows**: Supports tailored operational templates and custom dashboard widgets for:
-  - **Roofing & Construction** (Warranty tracking, scope change orders)
-  - **HVAC & Electrical** (Capacitor/parts restock alerts, unit warranties)
-  - **Landscaping & Lawncare** (Route scheduling, seasonal recurring plans)
-  - **Commercial Cleaning** (Crew assignments, bi-weekly clean checklists)
-  - **Salon & Beauty** (Stylist bookings, client retention, retail sales)
-  - **Painting & General Contracting** (Bid pipeline tracking, paint material costs)
+### 💼 2. Multi-Niche Customized Workflows
+OpslyDesk dynamically adapts dashboard widgets, terminology, and operational templates based on your specific industry niche:
+- **HVAC & Electrical**: Unit warranty tracking, capacitor/parts restock alerts, seasonal tune-up reminders.
+- **Roofing & General Contracting**: Scope change orders, material cost tracking, multi-phase project bids.
+- **Landscaping & Lawncare**: Route scheduling, recurring bi-weekly service plans, seasonal upkeep checklists.
+- **Commercial Cleaning**: Crew dispatching, workspace liability forms, bi-weekly clean checklists.
+- **Salon & Beauty**: Stylist bookings, client retention tracking, retail inventory metrics.
 
 ### 📄 3. Estimates, Invoices & Client Portals
-- **Invoice & Estimate Builder**: Line-item calculation, tax rates, discount presets, payment terms, and deposit tracking.
-- **Public Client Portals**: Dedicated customer portal URLs (`/invoice/:id` and `/estimate/:id`) featuring print-isolated clean CSS formatting, Stripe payment integration, digital approval signatures, and automatic status updates.
-- **Automated Late Payment Chaser**: Smart 3-stage automated follow-up sequence (`Day 3 Polite Reminder`, `Day 7 Firmer Follow-up`, `Day 14 Final Notice`) with owner review/approval queue.
+- **Invoice & Estimate Builder**: Line-item calculations, customizable tax rates, discount presets, payment terms, and deposit tracking.
+- **Public Client Portals**: Dedicated URLs (`/invoice/:id` and `/estimate/:id`) featuring print-isolated clean CSS formatting, Stripe payment button integrations, and digital approval signatures.
+- **Automated Payment Follow-up Chasers**: 3-stage automated follow-up queue (`Day 3 Polite Reminder`, `Day 7 Firmer Follow-up`, `Day 14 Final Notice`) with owner review/approval workflow.
 
-### 📅 4. Job Dispatch & Calendar Scheduling
-- **Visual Calendar View**: Day, week, and month views with color-coded job statuses (scheduled, in-progress, completed, cancelled).
-- **Job Builder & Inspector Dispatch**: Assign field technicians, specify job addresses, set rates, attach customer notes, and track completion progress.
-- **Google Calendar Sync**: Integrates dispatch schedule events with external Google Calendar feeds.
+### 📅 4. Job Dispatch & Visual Scheduler
+- **Interactive Calendar**: Day, week, and month views with color-coded job statuses (scheduled, in-progress, completed, cancelled).
+- **Technician & Inspector Dispatch**: Assign crew members, specify job addresses, set hourly rates, attach customer notes, and track real-time job progress.
 
-### 📑 5. Documents, Contracts & Change Orders
-- **Contract Templates Library**: Built-in templates for Roofing, Painting, Landscaping, Cleaning, and HVAC agreements.
-- **Interactive PDF Viewer & Print Engine**: Built-in A4 document renderer with custom `@media print` styling for crisp, clean physical printing and digital PDF saving.
-- **Digital Signatures**: Digital client signature capture with timestamps and audit trail.
+### 📑 5. Digital Contracts, Documents & Change Orders
+- **Built-in Contract Templates**: Pre-configured templates for Roofing, Painting, Landscaping, Cleaning, and HVAC agreements.
+- **Interactive PDF & Print Engine**: Built-in A4 document viewer with clean `@media print` CSS for physical printing and digital PDF saving.
+- **Digital Signatures**: Digital signature capture with timestamps and audit trail.
 
 ### 💬 6. Two-Way Communication & Follow-up Sequences
-- **Multi-Threaded Inbox**: Unified message inbox mapped directly to Supabase client contacts.
-- **Drip Email/SMS Sequences**: Automated follow-up sequence builder triggered by lifecycle events (e.g., invoice sent, estimate created, job completed).
+- **Multi-Threaded Message Inbox**: Unified message inbox mapped directly to client contact profiles.
+- **Automated Drip Sequences**: Triggered follow-up sequence builder based on lifecycle events (e.g., invoice sent, estimate created, job completed).
 
 ### 📊 7. Financial Analytics & Business Intelligence
-- **P&L Statements & Profitability**: Real-time revenue, expense tracking, net profit, and margin percentage calculations.
-- **Cash Flow Projections & AR Aging**: 30/60/90-day Accounts Receivable aging breakdowns and automated cash flow forecasting.
-- **Localized Market Trends**: AI-driven competitive insight reports tailored to the client's industry and region.
-
-### 🔐 8. Enterprise Security & Session Management
-- **Concurrent Session Eviction**: Real-time session limit enforcement backed by Supabase Realtime subscriptions to `active_sessions`.
-- **Role-Based Feature Gating**: Tiered feature access system (`Starter`, `Growth`, `Pro`, `Business`) with grace period handling for subscription lifecycle management.
+- **P&L Statements & Margin Analysis**: Real-time revenue tracking, expense categorization, net profit, and profit margin calculations.
+- **Cash Flow Projections & AR Aging**: 30/60/90-day Accounts Receivable aging breakdowns and cash flow forecasting.
+- **Localized Market Analysis**: AI-assisted competitive insight reports tailored to the client's industry and region.
 
 ---
 
 ## 🛠️ Tech Stack & Architecture
 
-- **Frontend**: React 18, Vite 8, Framer Motion (animations), CSS3 (Opsly Design System tokens)
-- **Backend / DB**: Supabase (PostgreSQL, Row Level Security, Auth, Realtime)
-- **AI Middleware**: Node.js SSE Stream Handler, Supabase Admin Service Role Client, LLM Pipeline
-- **Payment Processing**: Stripe Payment Links & Paddle Webhooks
+- **Frontend**: React 18, Vite 8, Framer Motion (micro-animations), Opsly Design System (vanilla CSS tokens)
+- **Backend / Database**: Supabase (PostgreSQL, Row Level Security, Auth, Realtime)
+- **AI Middleware**: Node.js SSE Stream Handler, Supabase Admin Client, LLM Pipeline
+- **Payment & Serverless**: Stripe Payment Links, Paddle Webhooks, Vercel Serverless Functions
 
 ---
 
-## 📁 Repository Structure
-
-```
-OpslyDesk/
-├── api/                             # Serverless backend functions (Vercel / Node)
-├── src/
-│   ├── assets/                      # Static assets & branding icons
-│   ├── components/
-│   │   ├── Analytics/               # AdvancedReports & P&L analytics
-│   │   ├── Auth/                    # Login, Signup, OTP, Password Reset
-│   │   ├── Billing/                 # Plan upgrade & pricing modals
-│   │   ├── CRM/                     # ContactProfile, CsvImportModal
-│   │   ├── Communication/           # CommunicationInbox & SMS threads
-│   │   ├── Documents/               # DocumentsModule, PDF Viewer, Contracts
-│   │   ├── Estimates/               # EstimateBuilder, EstimatePortal, Wizard
-│   │   ├── Invoices/                # InvoiceBuilder, InvoicePortal
-│   │   ├── Jobs/                    # CalendarView, JobBuilderModal, Details
-│   │   ├── Layout/                  # CommandBar, Header, Sidebar, MobileNav
-│   │   ├── Onboarding/              # OnboardingWizard (Steps 1-4)
-│   │   ├── Reviews/                 # CustomerReviews management
-│   │   └── Team/                    # TeamManagement & Inspector dispatch
-│   ├── contexts/                    # AuthContext & Session management
-│   ├── hooks/                       # useFeatureAccess (Plan gating)
-│   ├── lib/                         # Supabase client, AI Middleware, Webhooks
-│   ├── App.jsx                      # Main application orchestrator
-│   ├── index.css                    # Opsly CSS design system tokens
-│   └── main.jsx                     # Entry point
-├── index.html                       # HTML template
-├── vite.config.js                   # Vite configuration
-└── package.json                     # Dependencies & scripts
-```
-
----
-
-## 🚀 Getting Started
+## 🚀 Getting Started Locally
 
 ### Prerequisites
 
 - Node.js `v18.x` or higher
 - `npm` or `yarn`
-- A Supabase project instance
-
-### Environment Variables
-
-Create a `.env.local` file in the root directory:
-
-```env
-VITE_SUPABASE_URL=https://your-supabase-project.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-anon-key
-SUPABASE_SECRET_KEY=your-supabase-service-role-secret-key
-```
 
 ### Installation & Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/ForgefriendT/Opsly-ongoing.git
+cd Opsly-ongoing
+
 # Install dependencies
 npm install
 
-# Start Vite dev server
+# Run Vite development server
 npm run dev
 
-# Production build test
+# Test production build
 npm run build
 ```
 
