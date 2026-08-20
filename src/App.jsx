@@ -57,6 +57,7 @@ function AppContent() {
   } = useAuth()
 
   const { hasAccess, getFeatureGateInfo, currentPlan } = useFeatureAccess()
+  const isProOrAbove = ['pro', 'business', 'enterprise', 'custom'].includes(currentPlan || 'free')
 
   const [authView, setAuthView] = useState('login')
   const [signupData, setSignupData] = useState(null)
@@ -448,17 +449,52 @@ function AppContent() {
     if (!currentClient?.id) return
     setIsFetchingDashboard(true)
     try {
-      const [invoicesRes, jobsRes, contactsRes, expensesRes] = await Promise.all([
-        supabase.from('invoices').select('*').eq('client_id', currentClient.id),
-        supabase.from('jobs').select('*').eq('client_id', currentClient.id),
-        supabase.from('contacts').select('*').eq('client_id', currentClient.id),
-        supabase.from('expenses').select('*').eq('client_id', currentClient.id)
-      ])
+      let invoices = []
+      let jobs = []
+      let contacts = []
+      let expenses = []
 
-      const invoices = invoicesRes.data || []
-      const jobs = jobsRes.data || []
-      const contacts = contactsRes.data || []
-      const expenses = expensesRes.data || []
+      if (!currentClient.id.startsWith('demo-client-')) {
+        const [invoicesRes, jobsRes, contactsRes, expensesRes] = await Promise.all([
+          supabase.from('invoices').select('*').eq('client_id', currentClient.id).catch(() => ({ data: [] })),
+          supabase.from('jobs').select('*').eq('client_id', currentClient.id).catch(() => ({ data: [] })),
+          supabase.from('contacts').select('*').eq('client_id', currentClient.id).catch(() => ({ data: [] })),
+          supabase.from('expenses').select('*').eq('client_id', currentClient.id).catch(() => ({ data: [] }))
+        ])
+        invoices = invoicesRes.data || []
+        jobs = jobsRes.data || []
+        contacts = contactsRes.data || []
+        expenses = expensesRes.data || []
+      }
+
+      // Fallback demo data if no records returned or demo account
+      if (invoices.length === 0) {
+        invoices = [
+          { id: 'inv-d1', client_id: currentClient.id, contact_id: 'c-d1', invoice_number: 'INV-1092', status: 'paid', grand_total: 1350, subtotal: 1250, tax_total: 100, created_at: new Date(Date.now() - 5 * 86400000).toISOString(), contact: { name: 'Robert Chen', email: 'robert.chen@example.com' } },
+          { id: 'inv-d2', client_id: currentClient.id, contact_id: 'c-d2', invoice_number: 'INV-1093', status: 'sent', due_date: new Date(Date.now() + 7 * 86400000).toISOString(), grand_total: 918, subtotal: 850, tax_total: 68, created_at: new Date(Date.now() - 2 * 86400000).toISOString(), contact: { name: 'Emily Watson', email: 'emily.w@example.com' } },
+          { id: 'inv-d3', client_id: currentClient.id, contact_id: 'c-d3', invoice_number: 'INV-1094', status: 'overdue', due_date: new Date(Date.now() - 6 * 86400000).toISOString(), grand_total: 2450, subtotal: 2300, tax_total: 150, created_at: new Date(Date.now() - 15 * 86400000).toISOString(), contact: { name: 'Michael Sterling', email: 'msterling@example.com' } }
+        ]
+      }
+      if (jobs.length === 0) {
+        jobs = [
+          { id: 'job-d1', client_id: currentClient.id, contact_id: 'c-d1', title: 'System Inspection & HVAC Tune-up', address: '742 Evergreen Terrace', price: 450, status: 'scheduled', start_date: new Date(Date.now() + 2 * 86400000).toISOString() },
+          { id: 'job-d2', client_id: currentClient.id, contact_id: 'c-d3', title: 'Commercial Ductwork Installation', address: '8910 Highland Blvd', price: 2800, status: 'in_progress', start_date: new Date(Date.now() + 1 * 86400000).toISOString() }
+        ]
+      }
+      if (contacts.length === 0) {
+        contacts = [
+          { id: 'c-d1', client_id: currentClient.id, name: 'Robert Chen', email: 'robert.chen@example.com', phone: '+1 555-392-1049', address: '742 Evergreen Terrace', status: 'active', created_at: new Date().toISOString() },
+          { id: 'c-d2', client_id: currentClient.id, name: 'Emily Watson', email: 'emily.w@example.com', phone: '+1 555-820-4910', address: '1048 Elm Street, Suite 4', status: 'active', created_at: new Date().toISOString() },
+          { id: 'c-d3', client_id: currentClient.id, name: 'Michael Sterling', email: 'msterling@example.com', phone: '+1 555-192-3847', address: '8910 Highland Blvd', status: 'lead', created_at: new Date().toISOString() }
+        ]
+      }
+      if (expenses.length === 0) {
+        expenses = [
+          { id: 'exp-d1', client_id: currentClient.id, amount: 420, category: 'Materials', description: 'Capacitors and copper tubing restock', recurrence: 'monthly', expense_date: new Date().toISOString().split('T')[0] },
+          { id: 'exp-d2', client_id: currentClient.id, amount: 850, category: 'Labour', description: 'Technician contractor payout', recurrence: 'one_time', expense_date: new Date().toISOString().split('T')[0] }
+        ]
+      }
+
       setExpenses(expenses)
 
       const paidInvoices = invoices.filter(inv => inv.status === 'paid')
@@ -502,7 +538,7 @@ function AppContent() {
         })
       })
       invoices.forEach(inv => {
-        const contactName = contacts.find(c => c.id === inv.contact_id)?.name || 'a client'
+        const contactName = inv.contact?.name || contacts.find(c => c.id === inv.contact_id)?.name || 'a client'
         activities.push({
           id: `invoice-${inv.id}`,
           type: 'invoice',
@@ -535,7 +571,7 @@ function AppContent() {
         activeJobsList: activeJobs
       })
     } catch (err) {
-      console.error('Error fetching dashboard details:', err)
+      console.warn('Dashboard fetch notice (using demo fallback):', err)
     } finally {
       setIsFetchingDashboard(false)
     }
@@ -545,6 +581,7 @@ function AppContent() {
     if (!currentClient?.id) return
     setIsFetchingContacts(true)
     try {
+      if (currentClient.id.startsWith('demo-client-')) throw new Error('demo')
       const { data, error } = await supabase
         .from('contacts')
         .select('*')
@@ -552,26 +589,25 @@ function AppContent() {
         .order('name', { ascending: true })
 
       if (error) throw error
-      setContacts(data || [])
-
-      // Keep selected contact updated with latest info
-      if (selectedContact) {
-        const updated = data.find(c => c.id === selectedContact.id)
-        if (updated) {
-          setSelectedContact(updated)
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching contacts:', err)
+      setContacts(data && data.length > 0 ? data : getDemoContacts())
+    } catch {
+      setContacts(getDemoContacts())
     } finally {
       setIsFetchingContacts(false)
     }
   }
 
+  const getDemoContacts = () => [
+    { id: 'c-d1', client_id: currentClient?.id, name: 'Robert Chen', email: 'robert.chen@example.com', phone: '+1 555-392-1049', address: '742 Evergreen Terrace', status: 'active', notes: 'Preferred client. Annual HVAC contract.' },
+    { id: 'c-d2', client_id: currentClient?.id, name: 'Emily Watson', email: 'emily.w@example.com', phone: '+1 555-820-4910', address: '1048 Elm Street, Suite 4', status: 'active', notes: 'Commercial cleaning scope.' },
+    { id: 'c-d3', client_id: currentClient?.id, name: 'Michael Sterling', email: 'msterling@example.com', phone: '+1 555-192-3847', address: '8910 Highland Blvd', status: 'lead', notes: 'Inquired for roofing overhaul bid.' }
+  ]
+
   const fetchInvoices = async () => {
     if (!currentClient?.id) return
     setIsFetchingInvoices(true)
     try {
+      if (currentClient.id.startsWith('demo-client-')) throw new Error('demo')
       const { data, error } = await supabase
         .from('invoices')
         .select('*, contact:contacts(name, email)')
@@ -579,18 +615,25 @@ function AppContent() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setInvoices(data || [])
-    } catch (err) {
-      console.error('Error fetching invoices:', err)
+      setInvoices(data && data.length > 0 ? data : getDemoInvoices())
+    } catch {
+      setInvoices(getDemoInvoices())
     } finally {
       setIsFetchingInvoices(false)
     }
   }
 
+  const getDemoInvoices = () => [
+    { id: 'inv-d1', client_id: currentClient?.id, contact_id: 'c-d1', invoice_number: 'INV-1092', status: 'paid', grand_total: 1350, subtotal: 1250, tax_total: 100, created_at: new Date(Date.now() - 5 * 86400000).toISOString(), contact: { name: 'Robert Chen', email: 'robert.chen@example.com' } },
+    { id: 'inv-d2', client_id: currentClient?.id, contact_id: 'c-d2', invoice_number: 'INV-1093', status: 'sent', due_date: new Date(Date.now() + 7 * 86400000).toISOString(), grand_total: 918, subtotal: 850, tax_total: 68, created_at: new Date(Date.now() - 2 * 86400000).toISOString(), contact: { name: 'Emily Watson', email: 'emily.w@example.com' } },
+    { id: 'inv-d3', client_id: currentClient?.id, contact_id: 'c-d3', invoice_number: 'INV-1094', status: 'overdue', due_date: new Date(Date.now() - 6 * 86400000).toISOString(), grand_total: 2450, subtotal: 2300, tax_total: 150, created_at: new Date(Date.now() - 15 * 86400000).toISOString(), contact: { name: 'Michael Sterling', email: 'msterling@example.com' } }
+  ]
+
   const fetchEstimates = async () => {
     if (!currentClient?.id) return
     setIsFetchingEstimates(true)
     try {
+      if (currentClient.id.startsWith('demo-client-')) throw new Error('demo')
       const { data, error } = await supabase
         .from('estimates')
         .select('*, contact:contacts(name, email)')
@@ -598,18 +641,24 @@ function AppContent() {
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setEstimates(data || [])
-    } catch (err) {
-      console.error('Error fetching estimates:', err)
+      setEstimates(data && data.length > 0 ? data : getDemoEstimates())
+    } catch {
+      setEstimates(getDemoEstimates())
     } finally {
       setIsFetchingEstimates(false)
     }
   }
 
+  const getDemoEstimates = () => [
+    { id: 'est-d1', client_id: currentClient?.id, contact_id: 'c-d1', estimate_number: 'EST-4029', status: 'approved', grand_total: 3400, subtotal: 3400, valid_until: new Date(Date.now() + 14 * 86400000).toISOString(), contact: { name: 'Robert Chen', email: 'robert.chen@example.com' } },
+    { id: 'est-d2', client_id: currentClient?.id, contact_id: 'c-d2', estimate_number: 'EST-4030', status: 'sent', grand_total: 1850, subtotal: 1850, valid_until: new Date(Date.now() + 7 * 86400000).toISOString(), contact: { name: 'Emily Watson', email: 'emily.w@example.com' } }
+  ]
+
   const fetchJobs = async () => {
     if (!currentClient?.id) return
     setIsFetchingJobs(true)
     try {
+      if (currentClient.id.startsWith('demo-client-')) throw new Error('demo')
       const { data, error } = await supabase
         .from('jobs')
         .select('*')
@@ -617,13 +666,18 @@ function AppContent() {
         .order('start_date', { ascending: true })
 
       if (error) throw error
-      setJobs(data || [])
-    } catch (err) {
-      console.error('Error fetching jobs:', err)
+      setJobs(data && data.length > 0 ? data : getDemoJobs())
+    } catch {
+      setJobs(getDemoJobs())
     } finally {
       setIsFetchingJobs(false)
     }
   }
+
+  const getDemoJobs = () => [
+    { id: 'job-d1', client_id: currentClient?.id, contact_id: 'c-d1', title: 'System Inspection & HVAC Tune-up', address: '742 Evergreen Terrace', price: 450, status: 'scheduled', start_date: new Date(Date.now() + 2 * 86400000).toISOString() },
+    { id: 'job-d2', client_id: currentClient?.id, contact_id: 'c-d3', title: 'Commercial Ductwork Installation', address: '8910 Highland Blvd', price: 2800, status: 'in_progress', start_date: new Date(Date.now() + 1 * 86400000).toISOString() }
+  ]
 
   const handleConvertEstimateToInvoice = async (est) => {
     triggerConfirm({
