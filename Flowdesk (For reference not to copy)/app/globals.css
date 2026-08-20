@@ -1,0 +1,95 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Backgrounds */
+    --bg-base:        #0C0C0E;   /* deepest background */
+    --bg-surface:     #131316;   /* card/panel background */
+    --bg-elevated:    #1C1C21;   /* modals, dropdowns */
+    --bg-subtle:      #22222A;   /* hover states, input bg */
+
+    /* Brand */
+    --accent:         #E8C547;   /* warm gold — primary CTA, highlights */
+    --accent-dim:     #A88D2F;   /* secondary gold, disabled states */
+    --accent-glow:    rgba(232, 197, 71, 0.12); /* subtle glow on hover */
+
+    /* Text */
+    --text-primary:   #F0EDE6;   /* near-white, warm tint */
+    --text-secondary: #8A8780;   /* muted labels */
+    --text-tertiary:  #4A4845;   /* disabled, placeholders */
+
+    /* Semantic */
+    --success:        #2ECC71;
+    --success-dim:    rgba(46, 204, 113, 0.12);
+    --warning:        #F39C12;
+    --warning-dim:    rgba(243, 156, 18, 0.12);
+    --danger:         #E74C3C;
+    --danger-dim:     rgba(231, 76, 60, 0.12);
+    --info:           #3498DB;
+    --info-dim:       rgba(52, 152, 219, 0.12);
+
+    /* Borders */
+    --border:         rgba(240, 237, 230, 0.08);  /* default */
+    --border-strong:  rgba(240, 237, 230, 0.16);  /* hover/focus */
+    --border-accent:  rgba(232, 197, 71, 0.35);   /* focused inputs */
+
+    /* Spacing scale */
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   16px;
+    --radius-xl:   24px;
+    --radius-full: 9999px;
+
+    /* Shadcn UI Overrides (mapping to our dark theme colors) */
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+    --card: var(--bg-surface);
+    --card-foreground: var(--text-primary);
+    --popover: var(--bg-elevated);
+    --popover-foreground: var(--text-primary);
+    --primary: var(--accent);
+    --primary-foreground: #0C0C0E;
+    --secondary: var(--bg-subtle);
+    --secondary-foreground: var(--text-primary);
+    --muted: var(--bg-subtle);
+    --muted-foreground: var(--text-secondary);
+    --destructive: var(--danger);
+    --destructive-foreground: var(--text-primary);
+    --border: rgba(240, 237, 230, 0.08);
+    --input: rgba(240, 237, 230, 0.08);
+    --ring: var(--border-accent);
+    --radius: 0.625rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}

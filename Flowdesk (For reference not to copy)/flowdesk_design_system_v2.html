@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-base:#0C0C0E;--bg-surface:#131316;--bg-elevated:#1C1C21;--bg-subtle:#22222A;
+  --accent:#E8C547;--accent-dim:#A88D2F;--accent-glow:rgba(232,197,71,0.12);
+  --text-primary:#F0EDE6;--text-secondary:#8A8780;--text-tertiary:#4A4845;
+  --success:#2ECC71;--success-dim:rgba(46,204,113,0.12);
+  --warning:#F39C12;--warning-dim:rgba(243,156,18,0.12);
+  --danger:#E74C3C;--danger-dim:rgba(231,76,60,0.12);
+  --info:#3498DB;--info-dim:rgba(52,152,219,0.12);
+  --border:rgba(240,237,230,0.08);--border-strong:rgba(240,237,230,0.16);--border-accent:rgba(232,197,71,0.35);
+  --r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:24px;
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'Plus Jakarta Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+body{background:#09090B;font-family:var(--font-body);color:var(--text-primary);padding:2rem 1.5rem}
+
+/* Section headers */
+.section-title{font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);margin:2.5rem 0 1rem;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
+.section-title:first-child{margin-top:0}
+
+/* SCREEN MOCKUP */
+.screen{background:var(--bg-base);border:0.5px solid var(--border-strong);border-radius:var(--r-xl);overflow:hidden;margin-bottom:2rem}
+.screen-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:10px}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg-surface);border-right:0.5px solid var(--border);padding:20px 12px;width:200px;flex-shrink:0;display:flex;flex-direction:column;gap:2px}
+.logo-area{padding:4px 8px 20px;display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center}
+.logo-mark span{font-family:var(--font-display);font-size:14px;color:#0C0C0E}
+.logo-name{font-family:var(--font-display);font-size:16px;color:var(--text-primary)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r-md);font-size:12px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:all 0.15s}
+.nav-item.active{background:var(--accent-glow);border:0.5px solid var(--border-accent);color:var(--accent)}
+.nav-item:not(.active):hover{background:var(--bg-subtle);color:var(--text-primary)}
+.nav-dot{width:14px;height:14px;border-radius:3px;flex-shrink:0}
+.nav-version{margin-top:auto;padding:8px 10px;font-size:10px;color:var(--text-tertiary)}
+
+/* TOPBAR */
+.topbar{background:var(--bg-surface);border-bottom:0.5px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.page-title{font-family:var(--font-display);font-size:22px;color:var(--text-primary)}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+
+/* BUTTONS */
+.btn-primary{background:var(--accent);color:#0C0C0E;font-family:var(--font-body);font-size:11px;font-weight:600;padding:7px 14px;border-radius:var(--r-md);border:none;cursor:pointer;white-space:nowrap}
+.btn-ghost{background:transparent;color:var(--text-primary);font-family:var(--font-body);font-size:11px;font-weight:500;padding:7px 14px;border-radius:var(--r-md);border:0.5px solid var(--border-strong);cursor:pointer;white-space:nowrap}
+.btn-danger{background:var(--danger-dim);color:var(--danger);font-size:11px;font-weight:600;padding:5px 10px;border-radius:var(--r-sm);border:none;cursor:pointer}
+
+/* CARDS */
+.card{background:var(--bg-surface);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.card-sm{background:var(--bg-surface);border:0.5px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+
+/* STAT CARD */
+.stat-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px}
+.stat-value{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--text-primary)}
+.stat-value.accent{color:var(--accent)}
+.stat-change{font-size:11px;margin-top:6px}
+.stat-up{color:var(--success)}
+.stat-down{color:var(--danger)}
+
+/* BADGE */
+.badge{font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:9999px;display:inline-block}
+.badge-paid{background:var(--success-dim);color:var(--success)}
+.badge-overdue{background:var(--danger-dim);color:var(--danger)}
+.badge-pending{background:var(--warning-dim);color:var(--warning)}
+.badge-draft{background:var(--bg-subtle);color:var(--text-secondary)}
+.badge-sent{background:var(--info-dim);color:var(--info)}
+.badge-active{background:var(--success-dim);color:var(--success)}
+.badge-lead{background:var(--accent-glow);color:var(--accent)}
+.badge-inactive{background:var(--bg-subtle);color:var(--text-tertiary)}
+
+/* INPUT */
+.input{background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:12px;color:var(--text-primary);font-family:var(--font-body);width:100%;outline:none}
+.input-label{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:5px}
+.input-group{margin-bottom:12px}
+.input.focused{border-color:var(--border-accent)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);padding:8px 12px;border-bottom:0.5px solid var(--border);text-align:left}
+.tbl td{font-size:12px;color:var(--text-primary);padding:10px 12px;border-bottom:0.5px solid var(--border)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(240,237,230,0.02)}
+.mono{font-family:var(--font-mono)}
+
+/* AVATAR */
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+
+/* CHART BAR */
+.chart-bar-wrap{display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:8px}
+.chart-bar{border-radius:4px 4px 0 0;flex:1;position:relative}
+.chart-label{font-size:9px;color:var(--text-tertiary);text-align:center;margin-top:4px;font-family:var(--font-mono)}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:2px;background:var(--bg-subtle);border-radius:var(--r-md);padding:3px}
+.filter-tab{font-size:11px;font-weight:500;padding:5px 12px;border-radius:8px;color:var(--text-secondary);cursor:pointer}
+.filter-tab.active{background:var(--bg-elevated);color:var(--text-primary)}
+
+/* TIMER */
+.timer-display{font-family:var(--font-mono);font-size:40px;font-weight:500;color:var(--text-primary);letter-spacing:0.05em}
+.timer-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px}
+
+/* DIVIDER */
+.divider{border:none;border-top:0.5px solid var(--border);margin:0}
+
+/* TEMPLATE CARD */
+.template-card{background:var(--bg-surface);border:0.5px solid var(--border);border-radius:var(--r-lg);padding:16px;cursor:pointer;transition:border-color 0.15s}
+.template-icon{width:36px;height:36px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.template-name{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+.template-desc{font-size:11px;color:var(--text-secondary);line-height:1.5}
+
+/* INVOICE PREVIEW */
+.inv-preview{background:#FAFAF8;border-radius:var(--r-lg);padding:20px;color:#1a1a1a}
+.inv-preview-logo{font-family:var(--font-display);font-size:18px;color:#1a1a1a}
+.inv-preview-label{font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:3px}
+.inv-preview-val{font-size:12px;color:#1a1a1a}
+.inv-preview-line{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid rgba(0,0,0,0.08);font-size:11px}
+.inv-preview-total{display:flex;justify-content:space-between;padding:8px 0 0;font-size:14px;font-weight:600}
+.inv-disclaimer{font-size:8px;color:#aaa;margin-top:12px;line-height:1.5;border-top:0.5px solid #eee;padding-top:8px}
+
+/* LAYOUT HELPERS */
+.flex{display:flex}
+.flex-1{flex:1;min-width:0}
+.gap-2{gap:8px}
+.gap-3{gap:12px}
+.gap-4{gap:16px}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.col{display:flex;flex-direction:column}
+.p4{padding:16px}
+.p5{padding:20px}
+.mt1{margin-top:4px}
+.mt2{margin-top:8px}
+.mt3{margin-top:12px}
+.mb2{margin-bottom:8px}
+.mb3{margin-bottom:12px}
+.w-full{width:100%}
+.text-xs{font-size:11px}
+.text-sm{font-size:12px}
+.text-secondary{color:var(--text-secondary)}
+.text-tertiary{color:var(--text-tertiary)}
+.font-mono{font-family:var(--font-mono)}
+.font-display{font-family:var(--font-display)}
+.rounded-full{border-radius:9999px}
+
+/* AI PANEL */
+.ai-bubble{background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:0 var(--r-lg) var(--r-lg) var(--r-lg);padding:12px 14px;font-size:12px;line-height:1.6;color:var(--text-primary);max-width:90%}
+.ai-bubble.user{background:var(--accent-glow);border-color:var(--border-accent);border-radius:var(--r-lg) 0 var(--r-lg) var(--r-lg);margin-left:auto;color:var(--text-primary)}
+.ai-input-row{display:flex;gap:8px;margin-top:12px}
+.ai-input{background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:12px;color:var(--text-secondary);font-family:var(--font-body);flex:1}
+
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;padding:32px 20px;gap:10px}
+.empty-icon{width:48px;height:48px;border-radius:var(--r-lg);background:var(--bg-subtle);display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* TOAST */
+.toast{background:var(--bg-elevated);border:0.5px solid var(--border-strong);border-radius:var(--r-md);padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:12px;max-width:260px}
+.toast-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ACTIVITY ITEM */
+.activity-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+
+/* CURRENCY ROW */
+.curr-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--border)}
+.curr-row:last-child{border-bottom:none}
+.curr-code{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-primary);width:36px}
+.curr-name{font-size:11px;color:var(--text-secondary);flex:1;margin:0 8px}
+.curr-rate{font-family:var(--font-mono);font-size:12px;color:var(--text-primary)}
+.curr-chg{font-size:10px;margin-left:8px;font-family:var(--font-mono)}
+
+.main-content{flex:1;min-width:0;display:flex;flex-direction:column}
+.content-area{flex:1;overflow-y:auto;padding:20px}
+</style>
+
+<p class="section-title">Design system — color palette & typography</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:16px">
+  <div style="height:52px;background:#0C0C0E;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1)"></div>
+  <div style="height:52px;background:#131316;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1)"></div>
+  <div style="height:52px;background:#1C1C21;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1)"></div>
+  <div style="height:52px;background:#22222A;border-radius:8px;border:0.5px solid rgba(255,255,255,0.1)"></div>
+  <div style="height:52px;background:#E8C547;border-radius:8px"></div>
+  <div style="height:52px;background:#2ECC71;border-radius:8px"></div>
+  <div style="height:52px;background:#E74C3C;border-radius:8px"></div>
+  <div style="height:52px;background:#3498DB;border-radius:8px"></div>
+  <div style="height:52px;background:#F39C12;border-radius:8px"></div>
+</div>
+<div style="display:flex;gap:24px;margin-bottom:8px;flex-wrap:wrap">
+  <div>
+    <p style="font-family:var(--font-display);font-size:24px;color:var(--text-primary)">DM Serif Display</p>
+    <p style="font-size:10px;color:var(--text-tertiary);margin-top:2px">Page titles, hero numbers</p>
+  </div>
+  <div>
+    <p style="font-family:var(--font-body);font-size:14px;color:var(--text-primary);line-height:1.7">Plus Jakarta Sans — body<br><span style="color:var(--text-secondary)">Labels, UI text, forms</span></p>
+  </div>
+  <div>
+    <p style="font-family:var(--font-mono);font-size:16px;color:var(--accent)">₹1,24,500.00</p>
+    <p style="font-size:10px;color:var(--text-tertiary);margin-top:2px">DM Mono — amounts, codes</p>
+  </div>
+</div>
+
+<p class="section-title">Screen 1 — Dashboard</p>
+<div class="screen">
+  <div style="display:flex;height:460px">
+    <div class="sidebar">
+      <div class="logo-area">
+        <div class="logo-mark"><span>F</span></div>
+        <span class="logo-name">FlowDesk</span>
+      </div>
+      <div class="nav-item active">
+        <div class="nav-dot" style="background:var(--accent);border-radius:3px"></div>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Invoices</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Clients</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Expenses</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Documents</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Time</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div>
+        <span>Currencies</span>
+      </div>
+      <div class="nav-version">v0.1.0 · personal</div>
+    </div>
+    <div class="main-content">
+      <div class="topbar">
+        <span class="page-title">Good morning.</span>
+        <div class="topbar-actions">
+          <button class="btn-ghost">+ Expense</button>
+          <button class="btn-primary">+ New Invoice</button>
+        </div>
+      </div>
+      <div class="content-area" style="background:var(--bg-base)">
+        <div class="grid4" style="margin-bottom:16px">
+          <div class="card-sm">
+            <div class="stat-label">Revenue (all time)</div>
+            <div class="stat-value accent">₹2,84,500</div>
+            <div class="stat-change stat-up">↑ 14% this month</div>
+          </div>
+          <div class="card-sm">
+            <div class="stat-label">Outstanding</div>
+            <div class="stat-value">₹48,200</div>
+            <div class="stat-change text-secondary text-xs">3 invoices unpaid</div>
+          </div>
+          <div class="card-sm">
+            <div class="stat-label">Active Clients</div>
+            <div class="stat-value">12</div>
+            <div class="stat-change stat-up">2 new this month</div>
+          </div>
+          <div class="card-sm">
+            <div class="stat-label">Unbilled Hours</div>
+            <div class="stat-value">14.5h</div>
+            <div class="stat-change" style="color:var(--warning)">≈ ₹21,750</div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary)">Revenue — last 6 months</p>
+            </div>
+            <div class="chart-bar-wrap">
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:45%;background:var(--bg-subtle)"></div><div class="chart-label">Jan</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:60%;background:var(--bg-subtle)"></div><div class="chart-label">Feb</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:40%;background:var(--bg-subtle)"></div><div class="chart-label">Mar</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:75%;background:var(--bg-subtle)"></div><div class="chart-label">Apr</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:55%;background:var(--bg-subtle)"></div><div class="chart-label">May</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div class="chart-bar" style="height:90%;background:var(--accent)"></div><div class="chart-label" style="color:var(--accent)">Jun</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:10px">Recent invoices</p>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--success)"></div>
+              <div style="flex:1;min-width:0">
+                <div class="flex justify-between items-center"><span style="font-size:12px;font-weight:500">Reyes Digital</span><span class="badge badge-paid">Paid</span></div>
+                <div class="flex justify-between mt1"><span class="text-xs text-secondary">INV-2026-012</span><span class="font-mono text-xs">₹18,000</span></div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--warning)"></div>
+              <div style="flex:1;min-width:0">
+                <div class="flex justify-between items-center"><span style="font-size:12px;font-weight:500">Klein Studio</span><span class="badge badge-pending">Pending</span></div>
+                <div class="flex justify-between mt1"><span class="text-xs text-secondary">INV-2026-011</span><span class="font-mono text-xs">₹32,500</span></div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot" style="background:var(--danger)"></div>
+              <div style="flex:1;min-width:0">
+                <div class="flex justify-between items-center"><span style="font-size:12px;font-weight:500">Nakamura Co.</span><span class="badge badge-overdue">Overdue</span></div>
+                <div class="flex justify-between mt1"><span class="text-xs text-secondary">INV-2026-009</span><span class="font-mono text-xs">₹15,700</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 2 — Invoice builder (split view)</p>
+<div class="screen">
+  <div style="display:flex;height:500px">
+    <div class="sidebar" style="width:180px">
+      <div class="logo-area"><div class="logo-mark"><span>F</span></div><span class="logo-name">FlowDesk</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Dashboard</span></div>
+      <div class="nav-item active"><div class="nav-dot" style="background:var(--accent);border-radius:3px"></div><span>Invoices</span></div>
+    </div>
+    <div class="main-content">
+      <div class="topbar">
+        <span class="page-title">New Invoice</span>
+        <div class="topbar-actions">
+          <button class="btn-ghost">Save Draft</button>
+          <button class="btn-ghost">Preview</button>
+          <button class="btn-primary">Send via Email</button>
+        </div>
+      </div>
+      <div style="display:flex;flex:1;overflow:hidden">
+        <div style="flex:1;overflow-y:auto;padding:16px;background:var(--bg-base);border-right:0.5px solid var(--border);display:flex;flex-direction:column;gap:10px">
+          <div class="card-sm">
+            <div class="input-group"><div class="input-label">Client</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border-accent);border-radius:var(--r-md);padding:7px 12px;font-size:12px;color:var(--text-primary)">Reyes Digital ▾</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="input-group mb2"><div class="input-label">Invoice #</div><div class="input" style="font-family:var(--font-mono);font-size:11px;padding:7px 10px">INV-2026-013</div></div>
+              <div class="input-group mb2"><div class="input-label">Currency</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:7px 10px;font-size:12px;color:var(--text-primary)">INR ▾</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="input-group mb2"><div class="input-label">Issue date</div><div class="input" style="font-size:11px;padding:7px 10px">01 Jun 2026</div></div>
+              <div class="input-group mb2"><div class="input-label">Due date</div><div class="input focused" style="font-size:11px;padding:7px 10px">30 Jun 2026</div></div>
+            </div>
+          </div>
+          <div class="card-sm">
+            <div class="input-label" style="margin-bottom:8px">Line items</div>
+            <table style="width:100%;font-size:11px;border-collapse:collapse">
+              <tr><td style="color:var(--text-tertiary);padding:3px 0;width:45%">Description</td><td style="color:var(--text-tertiary);padding:3px 6px;width:15%">Qty</td><td style="color:var(--text-tertiary);padding:3px 6px;width:25%">Unit price</td><td style="color:var(--text-tertiary);text-align:right;padding:3px 0;width:15%">Amount</td></tr>
+              <tr><td style="padding:4px 0"><div class="input" style="padding:5px 8px;font-size:11px">UI/UX Design</div></td><td style="padding:4px 6px"><div class="input" style="padding:5px 8px;text-align:center;font-size:11px">1</div></td><td style="padding:4px 6px"><div class="input" style="padding:5px 8px;font-family:var(--font-mono);font-size:11px">25,000</div></td><td style="text-align:right;padding:4px 0;font-family:var(--font-mono);font-size:11px">₹25,000</td></tr>
+              <tr><td style="padding:4px 0"><div class="input" style="padding:5px 8px;font-size:11px">Brand Kit</div></td><td style="padding:4px 6px"><div class="input" style="padding:5px 8px;text-align:center;font-size:11px">1</div></td><td style="padding:4px 6px"><div class="input" style="padding:5px 8px;font-family:var(--font-mono);font-size:11px">12,000</div></td><td style="text-align:right;padding:4px 0;font-family:var(--font-mono);font-size:11px">₹12,000</td></tr>
+            </table>
+            <div style="margin-top:8px;font-size:11px;color:var(--accent);cursor:pointer">+ Add line item</div>
+            <div style="margin-top:12px;border-top:0.5px solid var(--border);padding-top:10px">
+              <div class="flex justify-between text-xs text-secondary" style="margin-bottom:4px"><span>Subtotal</span><span class="font-mono">₹37,000</span></div>
+              <div class="flex justify-between text-xs text-secondary" style="margin-bottom:4px"><span>GST (18%)</span><span class="font-mono">₹6,660</span></div>
+              <div class="flex justify-between" style="font-size:13px;font-weight:600;color:var(--text-primary);margin-top:6px"><span>Total</span><span class="font-mono" style="color:var(--accent)">₹43,660</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="width:260px;flex-shrink:0;overflow-y:auto;padding:16px;background:var(--bg-elevated)">
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:10px">Live preview</div>
+          <div class="inv-preview">
+            <div class="flex justify-between items-start" style="margin-bottom:12px">
+              <div><div class="inv-preview-logo">Your Studio</div><div style="font-size:10px;color:#888;margin-top:2px">hello@yourstudio.com</div></div>
+              <div style="text-align:right"><div style="font-size:16px;font-weight:600;color:#1a1a1a">INVOICE</div><div style="font-size:11px;font-family:'DM Mono',monospace;color:#555">INV-2026-013</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+              <div><div class="inv-preview-label">Bill to</div><div class="inv-preview-val">Reyes Digital</div><div style="font-size:10px;color:#888">sofia@reyes.co</div></div>
+              <div style="text-align:right"><div class="inv-preview-label">Due date</div><div class="inv-preview-val">30 Jun 2026</div></div>
+            </div>
+            <div class="inv-preview-line"><span>UI/UX Design</span><span>₹25,000</span></div>
+            <div class="inv-preview-line"><span>Brand Kit</span><span>₹12,000</span></div>
+            <div class="inv-preview-line"><span>GST (18%)</span><span>₹6,660</span></div>
+            <div class="inv-preview-total"><span>Total</span><span>₹43,660</span></div>
+            <div class="inv-disclaimer">This invoice was generated with FlowDesk. Payment due within 30 days of issue date.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 3 — CRM clients</p>
+<div class="screen">
+  <div style="display:flex;height:400px">
+    <div class="sidebar" style="width:180px">
+      <div class="logo-area"><div class="logo-mark"><span>F</span></div><span class="logo-name">FlowDesk</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Dashboard</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Invoices</span></div>
+      <div class="nav-item active"><div class="nav-dot" style="background:var(--accent);border-radius:3px"></div><span>Clients</span></div>
+    </div>
+    <div class="main-content">
+      <div class="topbar">
+        <span class="page-title">Clients</span>
+        <div class="topbar-actions">
+          <div class="filter-tabs"><div class="filter-tab active">All</div><div class="filter-tab">Active</div><div class="filter-tab">Leads</div></div>
+          <button class="btn-primary">+ New Client</button>
+        </div>
+      </div>
+      <div class="content-area" style="background:var(--bg-base)">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div class="card">
+            <div class="flex gap-3 items-center mb3">
+              <div class="avatar" style="background:rgba(52,152,219,0.15);color:var(--info)">SR</div>
+              <div class="flex-1"><div style="font-size:13px;font-weight:600">Sofia Reyes</div><div class="text-xs text-secondary">Reyes Digital</div></div>
+              <span class="badge badge-active">Active</span>
+            </div>
+            <hr class="divider" style="margin-bottom:10px">
+            <div class="flex justify-between text-xs text-secondary mb2"><span>Total billed</span><span class="font-mono" style="color:var(--text-primary)">₹1,24,000</span></div>
+            <div class="flex justify-between text-xs text-secondary"><span>Currency</span><span>INR</span></div>
+            <div class="flex gap-2 mt3"><button class="btn-ghost" style="font-size:10px;padding:4px 10px;flex:1">View</button><button class="btn-primary" style="font-size:10px;padding:4px 10px;flex:1">Invoice</button></div>
+          </div>
+          <div class="card">
+            <div class="flex gap-3 items-center mb3">
+              <div class="avatar" style="background:rgba(232,197,71,0.15);color:var(--accent)">MK</div>
+              <div class="flex-1"><div style="font-size:13px;font-weight:600">Marcus Klein</div><div class="text-xs text-secondary">Klein Studio</div></div>
+              <span class="badge badge-lead">Lead</span>
+            </div>
+            <hr class="divider" style="margin-bottom:10px">
+            <div class="flex justify-between text-xs text-secondary mb2"><span>Total billed</span><span class="font-mono" style="color:var(--text-primary)">₹32,500</span></div>
+            <div class="flex justify-between text-xs text-secondary"><span>Currency</span><span>USD</span></div>
+            <div class="flex gap-2 mt3"><button class="btn-ghost" style="font-size:10px;padding:4px 10px;flex:1">View</button><button class="btn-primary" style="font-size:10px;padding:4px 10px;flex:1">Invoice</button></div>
+          </div>
+          <div class="card">
+            <div class="flex gap-3 items-center mb3">
+              <div class="avatar" style="background:rgba(46,204,113,0.15);color:var(--success)">AN</div>
+              <div class="flex-1"><div style="font-size:13px;font-weight:600">Aiko Nakamura</div><div class="text-xs text-secondary">Nakamura Co.</div></div>
+              <span class="badge badge-active">Active</span>
+            </div>
+            <hr class="divider" style="margin-bottom:10px">
+            <div class="flex justify-between text-xs text-secondary mb2"><span>Total billed</span><span class="font-mono" style="color:var(--text-primary)">₹87,200</span></div>
+            <div class="flex justify-between text-xs text-secondary"><span>Currency</span><span>JPY</span></div>
+            <div class="flex gap-2 mt3"><button class="btn-ghost" style="font-size:10px;padding:4px 10px;flex:1">View</button><button class="btn-primary" style="font-size:10px;padding:4px 10px;flex:1">Invoice</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 4 — Document studio + time tracker (side by side)</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem">
+  <div>
+    <div class="screen-label">Document studio</div>
+    <div class="screen">
+      <div style="background:var(--bg-base);padding:16px;height:320px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <p style="font-family:var(--font-display);font-size:16px">Documents</p>
+          <button class="btn-ghost" style="font-size:10px;padding:5px 10px">+ New</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="template-card" style="border-color:var(--border-accent)">
+            <div class="template-icon" style="background:var(--accent-glow);color:var(--accent)">⊞</div>
+            <div class="template-name">NDA</div>
+            <div class="template-desc">Non-disclosure agreement for client work</div>
+          </div>
+          <div class="template-card">
+            <div class="template-icon" style="background:var(--info-dim);color:var(--info)">⊡</div>
+            <div class="template-name">Service Agreement</div>
+            <div class="template-desc">Standard freelance service contract</div>
+          </div>
+          <div class="template-card">
+            <div class="template-icon" style="background:var(--success-dim);color:var(--success)">⊟</div>
+            <div class="template-name">Scope of Work</div>
+            <div class="template-desc">Project deliverables and timeline</div>
+          </div>
+          <div class="template-card">
+            <div class="template-icon" style="background:var(--warning-dim);color:var(--warning)">⊠</div>
+            <div class="template-name">Payment Terms</div>
+            <div class="template-desc">Late fees, payment schedule, methods</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;background:rgba(231,76,60,0.06);border:0.5px solid rgba(231,76,60,0.2);border-radius:var(--r-md);padding:7px 10px;font-size:10px;color:var(--text-secondary);line-height:1.5">
+          ⚠ All documents include a legal disclaimer. These are templates only — not legal advice.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="screen-label">Time tracker</div>
+    <div class="screen">
+      <div style="background:var(--bg-base);padding:16px;height:320px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <p style="font-family:var(--font-display);font-size:16px">Time</p>
+          <span class="badge" style="background:var(--danger-dim);color:var(--danger)">● Recording</span>
+        </div>
+        <div class="card-sm" style="margin-bottom:12px;text-align:center">
+          <div class="timer-label">Current session</div>
+          <div class="timer-display">02:14:37</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:4px">Klein Studio — Brand Strategy</div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-top:10px">
+            <button class="btn-ghost" style="font-size:10px;padding:5px 12px">Pause</button>
+            <button class="btn-danger" style="padding:5px 12px">Stop & Save</button>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px">Today's log</div>
+        <div class="tbl-row" style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:11px">
+          <span class="text-secondary">Reyes Digital</span>
+          <span class="text-secondary">UI Review call</span>
+          <span class="font-mono">1.5h</span>
+          <button class="btn-primary" style="font-size:9px;padding:3px 8px">→ Invoice</button>
+        </div>
+        <div class="tbl-row" style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:11px">
+          <span class="text-secondary">Nakamura Co.</span>
+          <span class="text-secondary">Revisions</span>
+          <span class="font-mono">3.0h</span>
+          <button class="btn-primary" style="font-size:9px;padding:3px 8px">→ Invoice</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 5 — AI advisor + currencies (side by side)</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem">
+  <div>
+    <div class="screen-label">AI cash flow advisor</div>
+    <div class="screen">
+      <div style="background:var(--bg-base);padding:16px;height:280px;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <div style="width:24px;height:24px;border-radius:6px;background:var(--accent-glow);border:0.5px solid var(--border-accent);display:flex;align-items:center;justify-content:center;font-size:11px">✦</div>
+          <p style="font-size:12px;font-weight:600;color:var(--text-primary)">AI Advisor</p>
+          <span style="font-size:9px;color:var(--text-tertiary);margin-left:auto">Gemini Flash</span>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;overflow:hidden">
+          <div class="ai-bubble user">Can I afford to take on another big client right now?</div>
+          <div class="ai-bubble">Based on your data — yes, comfortably. You have ₹48,200 outstanding and a net this month of ₹34,500. Your burn rate is low. Taking a new retainer client wouldn't strain cash flow, especially if you invoice weekly or bi-weekly.</div>
+        </div>
+        <div class="ai-input-row">
+          <div class="ai-input">Ask about your finances...</div>
+          <button class="btn-primary" style="padding:8px 14px;font-size:11px">Ask</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="screen-label">Live currencies</div>
+    <div class="screen">
+      <div style="background:var(--bg-base);padding:16px;height:280px;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <p style="font-family:var(--font-display);font-size:16px">Currencies</p>
+          <span style="font-size:10px;color:var(--text-tertiary)">Base: INR · Updated 3m ago</span>
+        </div>
+        <div class="curr-row"><span class="curr-code">USD</span><span class="curr-name">US Dollar</span><span class="curr-rate">0.01202</span><span class="curr-chg" style="color:var(--success)">↑0.12%</span></div>
+        <div class="curr-row"><span class="curr-code">EUR</span><span class="curr-name">Euro</span><span class="curr-rate">0.01109</span><span class="curr-chg" style="color:var(--danger)">↓0.08%</span></div>
+        <div class="curr-row"><span class="curr-code">GBP</span><span class="curr-name">Brit. Pound</span><span class="curr-rate">0.00948</span><span class="curr-chg" style="color:var(--success)">↑0.04%</span></div>
+        <div class="curr-row"><span class="curr-code">AED</span><span class="curr-name">UAE Dirham</span><span class="curr-rate">0.04412</span><span class="curr-chg" style="color:var(--text-tertiary)">0.00%</span></div>
+        <div class="curr-row"><span class="curr-code">JPY</span><span class="curr-name">Japanese Yen</span><span class="curr-rate">1.8441</span><span class="curr-chg" style="color:var(--danger)">↓0.21%</span></div>
+        <div class="curr-row"><span class="curr-code">SGD</span><span class="curr-name">Singapore $</span><span class="curr-rate">0.01611</span><span class="curr-chg" style="color:var(--success)">↑0.06%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Component library — buttons, badges, inputs, states</p>
+<div class="card" style="margin-bottom:1.5rem">
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+    <button class="btn-primary">Primary action</button>
+    <button class="btn-ghost">Ghost action</button>
+    <button class="btn-danger">Delete</button>
+    <button class="btn-ghost" style="opacity:0.4;cursor:not-allowed">Disabled</button>
+    <button class="btn-primary" style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.3);border-top-color:transparent;animation:spin 0.6s linear infinite"></span>Loading</button>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+    <span class="badge badge-paid">Paid</span>
+    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-overdue">Overdue</span>
+    <span class="badge badge-draft">Draft</span>
+    <span class="badge badge-sent">Sent</span>
+    <span class="badge badge-active">Active</span>
+    <span class="badge badge-lead">Lead</span>
+    <span class="badge badge-inactive">Inactive</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+    <div><div class="input-label">Default input</div><div class="input">Placeholder text</div></div>
+    <div><div class="input-label">Focused input</div><div class="input focused" style="border-color:var(--border-accent)">Value here</div></div>
+    <div><div class="input-label">Error input</div><div class="input" style="border-color:var(--danger)">Bad value</div><div style="font-size:10px;color:var(--danger);margin-top:3px">This field is required</div></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <div class="toast"><div class="toast-dot" style="background:var(--success)"></div><span style="font-size:12px">Invoice sent successfully</span></div>
+    <div class="toast"><div class="toast-dot" style="background:var(--danger)"></div><span style="font-size:12px">Failed to send email</span></div>
+    <div class="toast"><div class="toast-dot" style="background:var(--accent)"></div><span style="font-size:12px">PDF downloaded</span></div>
+  </div>
+</div>
+
+<p class="section-title">Screen 6 — Expenses tracker</p>
+<div class="screen" style="margin-bottom:2rem">
+  <div style="display:flex;height:460px">
+    <div class="sidebar" style="width:180px">
+      <div class="logo-area"><div class="logo-mark"><span>F</span></div><span class="logo-name">FlowDesk</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Dashboard</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Invoices</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Clients</span></div>
+      <div class="nav-item active"><div class="nav-dot" style="background:var(--accent);border-radius:3px"></div><span>Expenses</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Documents</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Time</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Currencies</span></div>
+      <div class="nav-version">v0.1.0 · personal</div>
+    </div>
+    <div class="main-content">
+      <div class="topbar">
+        <span class="page-title">Expenses</span>
+        <div class="topbar-actions">
+          <div class="filter-tabs"><div class="filter-tab active">All</div><div class="filter-tab">Business</div><div class="filter-tab">Personal</div></div>
+          <button class="btn-primary">+ Add Expense</button>
+        </div>
+      </div>
+      <div class="content-area" style="background:var(--bg-base)">
+        <!-- Summary row -->
+        <div class="grid3" style="margin-bottom:14px">
+          <div class="card-sm">
+            <div class="stat-label">Total this month</div>
+            <div class="stat-value" style="color:var(--danger)">₹18,340</div>
+            <div class="stat-change stat-down">↑ 8% vs last month</div>
+          </div>
+          <div class="card-sm">
+            <div class="stat-label">Tax-deductible</div>
+            <div class="stat-value">₹13,200</div>
+            <div class="stat-change text-xs text-secondary">72% of total</div>
+          </div>
+          <div class="card-sm">
+            <div class="stat-label">Receipts pending</div>
+            <div class="stat-value" style="color:var(--warning)">4</div>
+            <div class="stat-change text-xs text-secondary">Upload to categorize</div>
+          </div>
+        </div>
+        <!-- Category pills -->
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-elevated);border:0.5px solid var(--border-accent);color:var(--accent)">All categories</span>
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-subtle);color:var(--text-secondary)">Software</span>
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-subtle);color:var(--text-secondary)">Travel</span>
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-subtle);color:var(--text-secondary)">Equipment</span>
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-subtle);color:var(--text-secondary)">Marketing</span>
+          <span style="font-size:10px;padding:4px 10px;border-radius:9999px;background:var(--bg-subtle);color:var(--text-secondary)">Meals</span>
+        </div>
+        <!-- Expense table -->
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr>
+              <th>Description</th><th>Category</th><th>Date</th><th>Receipt</th><th>Deductible</th><th style="text-align:right">Amount</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><span style="font-size:12px;font-weight:500">Figma Pro annual</span></td>
+                <td><span class="badge" style="background:var(--info-dim);color:var(--info)">Software</span></td>
+                <td class="text-xs text-secondary">01 Jun 2026</td>
+                <td><span style="font-size:10px;color:var(--success)">✓ Uploaded</span></td>
+                <td><span style="font-size:10px;color:var(--success)">Yes</span></td>
+                <td class="mono" style="text-align:right;color:var(--danger)">−₹5,600</td>
+              </tr>
+              <tr>
+                <td><span style="font-size:12px;font-weight:500">Client lunch — Reyes</span></td>
+                <td><span class="badge" style="background:var(--warning-dim);color:var(--warning)">Meals</span></td>
+                <td class="text-xs text-secondary">29 May 2026</td>
+                <td><span style="font-size:10px;color:var(--success)">✓ Uploaded</span></td>
+                <td><span style="font-size:10px;color:var(--success)">Yes</span></td>
+                <td class="mono" style="text-align:right;color:var(--danger)">−₹2,100</td>
+              </tr>
+              <tr>
+                <td><span style="font-size:12px;font-weight:500">Train to Mumbai</span></td>
+                <td><span class="badge" style="background:rgba(96,165,250,0.12);color:#60A5FA">Travel</span></td>
+                <td class="text-xs text-secondary">27 May 2026</td>
+                <td><span style="font-size:10px;color:var(--warning)">⚠ Missing</span></td>
+                <td><span style="font-size:10px;color:var(--success)">Yes</span></td>
+                <td class="mono" style="text-align:right;color:var(--danger)">−₹1,440</td>
+              </tr>
+              <tr>
+                <td><span style="font-size:12px;font-weight:500">iPad stylus</span></td>
+                <td><span class="badge" style="background:rgba(167,139,250,0.12);color:#A78BFA">Equipment</span></td>
+                <td class="text-xs text-secondary">22 May 2026</td>
+                <td><span style="font-size:10px;color:var(--success)">✓ Uploaded</span></td>
+                <td><span style="font-size:10px;color:var(--success)">Yes</span></td>
+                <td class="mono" style="text-align:right;color:var(--danger)">−₹4,060</td>
+              </tr>
+              <tr>
+                <td><span style="font-size:12px;font-weight:500">Netflix</span></td>
+                <td><span class="badge badge-inactive">Personal</span></td>
+                <td class="text-xs text-secondary">18 May 2026</td>
+                <td><span style="font-size:10px;color:var(--text-tertiary)">—</span></td>
+                <td><span style="font-size:10px;color:var(--text-tertiary)">No</span></td>
+                <td class="mono" style="text-align:right;color:var(--danger)">−₹649</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 7 — Client detail / profile</p>
+<div class="screen" style="margin-bottom:2rem">
+  <div style="display:flex;height:480px">
+    <div class="sidebar" style="width:180px">
+      <div class="logo-area"><div class="logo-mark"><span>F</span></div><span class="logo-name">FlowDesk</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Dashboard</span></div>
+      <div class="nav-item"><div class="nav-dot" style="background:var(--bg-subtle);border-radius:3px"></div><span>Invoices</span></div>
+      <div class="nav-item active"><div class="nav-dot" style="background:var(--accent);border-radius:3px"></div><span>Clients</span></div>
+    </div>
+    <div class="main-content">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--text-tertiary);cursor:pointer">← Clients</span>
+          <span style="color:var(--border)">|</span>
+          <span class="page-title" style="font-size:18px">Reyes Digital</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn-ghost">Edit</button>
+          <button class="btn-primary">+ New Invoice</button>
+        </div>
+      </div>
+      <div class="content-area" style="background:var(--bg-base)">
+        <div style="display:grid;grid-template-columns:260px 1fr;gap:12px">
+          <!-- Left: client card -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="card">
+              <div style="display:flex;flex-direction:column;align-items:center;padding:8px 0 12px">
+                <div class="avatar" style="width:52px;height:52px;font-size:17px;background:rgba(52,152,219,0.15);color:var(--info);margin-bottom:10px">SR</div>
+                <div style="font-size:14px;font-weight:600;margin-bottom:2px">Sofia Reyes</div>
+                <div class="text-xs text-secondary">sofia@reyes.co</div>
+                <div class="text-xs text-secondary">+91 98765 43210</div>
+              </div>
+              <hr class="divider" style="margin-bottom:12px">
+              <div class="flex justify-between text-xs text-secondary mb2"><span>Company</span><span style="color:var(--text-primary)">Reyes Digital</span></div>
+              <div class="flex justify-between text-xs text-secondary mb2"><span>Currency</span><span class="font-mono" style="color:var(--text-primary)">INR</span></div>
+              <div class="flex justify-between text-xs text-secondary mb2"><span>Country</span><span style="color:var(--text-primary)">India</span></div>
+              <div class="flex justify-between text-xs text-secondary mb2"><span>GST / VAT</span><span class="font-mono" style="color:var(--text-primary)">29AADCR...</span></div>
+              <div class="flex justify-between text-xs text-secondary"><span>Since</span><span style="color:var(--text-primary)">Mar 2025</span></div>
+            </div>
+            <div class="card-sm">
+              <div class="stat-label">Total billed</div>
+              <div class="stat-value accent" style="font-size:18px">₹1,24,000</div>
+              <div style="height:3px;background:var(--bg-subtle);border-radius:9999px;margin-top:10px;overflow:hidden">
+                <div style="height:100%;width:78%;background:var(--accent);border-radius:9999px"></div>
+              </div>
+              <div class="flex justify-between mt1 text-xs text-secondary"><span>Paid: ₹96,500</span><span>Pending: ₹27,500</span></div>
+            </div>
+          </div>
+          <!-- Right: invoices + notes -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="card" style="padding:0;overflow:hidden">
+              <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary)">Invoice history</span>
+                <span class="text-xs text-secondary">4 total</span>
+              </div>
+              <table class="tbl">
+                <thead><tr><th>#</th><th>Date</th><th>Items</th><th>Status</th><th style="text-align:right">Amount</th></tr></thead>
+                <tbody>
+                  <tr><td class="mono text-xs">INV-013</td><td class="text-xs text-secondary">01 Jun</td><td class="text-xs text-secondary">UI/UX, Brand Kit</td><td><span class="badge badge-pending">Pending</span></td><td class="mono" style="text-align:right">₹43,660</td></tr>
+                  <tr><td class="mono text-xs">INV-012</td><td class="text-xs text-secondary">01 May</td><td class="text-xs text-secondary">UI/UX Design</td><td><span class="badge badge-paid">Paid</span></td><td class="mono" style="text-align:right">₹18,000</td></tr>
+                  <tr><td class="mono text-xs">INV-008</td><td class="text-xs text-secondary">01 Apr</td><td class="text-xs text-secondary">Consulting</td><td><span class="badge badge-paid">Paid</span></td><td class="mono" style="text-align:right">₹35,000</td></tr>
+                  <tr><td class="mono text-xs">INV-003</td><td class="text-xs text-secondary">15 Mar</td><td class="text-xs text-secondary">Kickoff retainer</td><td><span class="badge badge-paid">Paid</span></td><td class="mono" style="text-align:right">₹27,340</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-sm">
+              <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px">Notes / CRM log</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="font-size:11px;line-height:1.6;color:var(--text-secondary);background:var(--bg-elevated);border-radius:var(--r-md);padding:8px 10px;border-left:2px solid var(--accent)">Prefers milestone-based invoicing. Always pays within 7 days. Referred by Nakamura Co.</div>
+                <div class="input" style="height:30px;font-size:11px;color:var(--text-tertiary)">Add a note...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 8 — Onboarding / settings</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem">
+  <div>
+    <div class="screen-label">Onboarding — step 1 of 3</div>
+    <div class="screen">
+      <div style="background:var(--bg-base);height:340px;display:flex;align-items:center;justify-content:center;padding:24px">
+        <div style="width:100%;max-width:340px">
+          <div style="text-align:center;margin-bottom:24px">
+            <div class="logo-mark" style="margin:0 auto 12px;width:36px;height:36px"><span style="font-size:18px">F</span></div>
+            <p style="font-family:var(--font-display);font-size:22px;margin-bottom:6px">Welcome to FlowDesk</p>
+            <p class="text-xs text-secondary">Let's set up your workspace in 2 minutes.</p>
+          </div>
+          <div style="display:flex;justify-content:center;gap:4px;margin-bottom:24px">
+            <div style="height:3px;width:40px;border-radius:9999px;background:var(--accent)"></div>
+            <div style="height:3px;width:40px;border-radius:9999px;background:var(--bg-subtle)"></div>
+            <div style="height:3px;width:40px;border-radius:9999px;background:var(--bg-subtle)"></div>
+          </div>
+          <div class="input-group"><div class="input-label">Your name</div><div class="input focused">Arjun Mehta</div></div>
+          <div class="input-group"><div class="input-label">Business name</div><div class="input">Mehta Creative</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" class="input-group">
+            <div><div class="input-label">Country</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:12px;color:var(--text-primary)">India ▾</div></div>
+            <div><div class="input-label">Currency</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:12px;color:var(--text-primary)">INR ▾</div></div>
+          </div>
+          <button class="btn-primary" style="width:100%;padding:10px;font-size:12px;margin-top:4px">Continue →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="screen-label">Settings — profile & brand</div>
+    <div class="screen">
+      <div style="display:flex;height:340px">
+        <div style="width:140px;flex-shrink:0;background:var(--bg-surface);border-right:0.5px solid var(--border);padding:16px 10px;display:flex;flex-direction:column;gap:2px">
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);padding:0 8px;margin-bottom:6px">Settings</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;background:var(--accent-glow);border:0.5px solid var(--border-accent);color:var(--accent)">Profile & brand</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;color:var(--text-secondary)">Invoice defaults</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;color:var(--text-secondary)">Tax & GST</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;color:var(--text-secondary)">Currencies</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;color:var(--text-secondary)">Notifications</div>
+          <div style="padding:7px 10px;border-radius:var(--r-md);font-size:11px;color:var(--text-secondary)">Export data</div>
+        </div>
+        <div style="flex:1;padding:16px;overflow-y:auto;background:var(--bg-base)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(52,152,219,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:var(--info)">AM</div>
+            <div><div style="font-size:12px;font-weight:600">Arjun Mehta</div><div class="text-xs text-secondary">arjun@mehtacreative.in</div></div>
+            <button class="btn-ghost" style="font-size:10px;padding:5px 10px;margin-left:auto">Change photo</button>
+          </div>
+          <div class="input-group"><div class="input-label">Business name</div><div class="input">Mehta Creative</div></div>
+          <div class="input-group"><div class="input-label">Invoice prefix</div><div class="input font-mono">INV-2026-</div></div>
+          <div class="input-group"><div class="input-label">Logo (shown on invoices)</div>
+            <div style="border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:12px;text-align:center;color:var(--text-tertiary);font-size:11px">Drop image here · or <span style="color:var(--accent);cursor:pointer">browse</span></div>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+            <button class="btn-ghost" style="font-size:11px">Reset</button>
+            <button class="btn-primary" style="font-size:11px">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 9 — Mobile view (375px)</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem">
+  <!-- Mobile: Dashboard -->
+  <div>
+    <div class="screen-label">Mobile — dashboard</div>
+    <div class="screen" style="border-radius:var(--r-lg)">
+      <div style="background:var(--bg-base);padding:14px;min-height:480px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div class="logo-mark" style="width:26px;height:26px"><span style="font-size:12px">F</span></div>
+          <div style="font-family:var(--font-display);font-size:15px">FlowDesk</div>
+          <div style="width:26px;height:26px;border-radius:50%;background:rgba(52,152,219,0.15);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--info)">AM</div>
+        </div>
+        <p style="font-family:var(--font-display);font-size:18px;margin-bottom:14px">Good morning.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+          <div class="card-sm" style="padding:10px 12px">
+            <div class="stat-label" style="font-size:9px">Revenue</div>
+            <div class="stat-value accent" style="font-size:16px">₹2.8L</div>
+          </div>
+          <div class="card-sm" style="padding:10px 12px">
+            <div class="stat-label" style="font-size:9px">Outstanding</div>
+            <div class="stat-value" style="font-size:16px">₹48.2k</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:12px;padding:12px 14px">
+          <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px">Recent</div>
+          <div class="activity-item" style="padding:6px 0">
+            <div class="activity-dot" style="background:var(--success)"></div>
+            <div style="flex:1;min-width:0"><div class="flex justify-between"><span style="font-size:11px;font-weight:500">Reyes Digital</span><span class="badge badge-paid" style="font-size:8px">Paid</span></div><div class="flex justify-between mt1"><span class="text-xs text-secondary" style="font-size:10px">INV-012</span><span class="mono text-xs" style="font-size:10px">₹18,000</span></div></div>
+          </div>
+          <div class="activity-item" style="padding:6px 0">
+            <div class="activity-dot" style="background:var(--warning)"></div>
+            <div style="flex:1;min-width:0"><div class="flex justify-between"><span style="font-size:11px;font-weight:500">Klein Studio</span><span class="badge badge-pending" style="font-size:8px">Due</span></div><div class="flex justify-between mt1"><span class="text-xs text-secondary" style="font-size:10px">INV-011</span><span class="mono text-xs" style="font-size:10px">₹32,500</span></div></div>
+          </div>
+        </div>
+        <!-- Bottom nav -->
+        <div style="position:absolute;bottom:0;left:0;right:0;background:var(--bg-surface);border-top:0.5px solid var(--border);padding:10px 8px;display:flex;justify-content:space-around;align-items:center">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:14px;height:14px;border-radius:3px;background:var(--accent)"></div><span style="font-size:9px;color:var(--accent)">Home</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bg-subtle)"></div><span style="font-size:9px;color:var(--text-tertiary)">Invoices</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;position:relative">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;position:absolute;top:-22px;box-shadow:0 0 0 4px var(--bg-base)"><span style="font-size:18px;color:#0C0C0E;font-weight:300;line-height:1">+</span></div>
+            <div style="height:14px"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bg-subtle)"></div><span style="font-size:9px;color:var(--text-tertiary)">Clients</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bg-subtle)"></div><span style="font-size:9px;color:var(--text-tertiary)">More</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile: Quick invoice -->
+  <div>
+    <div class="screen-label">Mobile — quick invoice</div>
+    <div class="screen" style="border-radius:var(--r-lg)">
+      <div style="background:var(--bg-base);padding:14px;min-height:480px;position:relative">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px">
+          <span style="font-size:11px;color:var(--text-tertiary)">← Back</span>
+          <span style="font-family:var(--font-display);font-size:16px;margin-left:4px">New Invoice</span>
+        </div>
+        <div class="input-group"><div class="input-label">Client</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border-accent);border-radius:var(--r-md);padding:8px 12px;font-size:12px;color:var(--text-primary)">Reyes Digital ▾</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="input-group"><div class="input-label">Amount</div><div class="input font-mono focused">₹ 43,660</div></div>
+          <div class="input-group"><div class="input-label">Currency</div><div style="background:var(--bg-subtle);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:12px">INR ▾</div></div>
+        </div>
+        <div class="input-group"><div class="input-label">Description</div><div class="input">UI/UX Design + Brand Kit</div></div>
+        <div class="input-group"><div class="input-label">Due in</div>
+          <div style="display:flex;gap:6px">
+            <div style="flex:1;text-align:center;padding:7px 4px;border-radius:var(--r-md);background:var(--bg-elevated);border:0.5px solid var(--border);font-size:11px;color:var(--text-secondary)">7d</div>
+            <div style="flex:1;text-align:center;padding:7px 4px;border-radius:var(--r-md);background:var(--accent-glow);border:0.5px solid var(--border-accent);font-size:11px;color:var(--accent)">15d</div>
+            <div style="flex:1;text-align:center;padding:7px 4px;border-radius:var(--r-md);background:var(--bg-elevated);border:0.5px solid var(--border);font-size:11px;color:var(--text-secondary)">30d</div>
+            <div style="flex:1;text-align:center;padding:7px 4px;border-radius:var(--r-md);background:var(--bg-elevated);border:0.5px solid var(--border);font-size:11px;color:var(--text-secondary)">Custom</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;background:var(--bg-elevated);border-radius:var(--r-md);padding:10px 12px">
+          <div class="flex justify-between text-xs text-secondary mb2"><span>GST (18%)</span><span class="font-mono">₹6,660</span></div>
+          <div class="flex justify-between" style="font-size:13px;font-weight:600"><span>Total</span><span class="font-mono" style="color:var(--accent)">₹43,660</span></div>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:11px;font-size:12px;margin-top:12px">Send Invoice →</button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile: AI advisor -->
+  <div>
+    <div class="screen-label">Mobile — AI advisor</div>
+    <div class="screen" style="border-radius:var(--r-lg)">
+      <div style="background:var(--bg-base);padding:14px;min-height:480px;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <div style="width:22px;height:22px;border-radius:5px;background:var(--accent-glow);border:0.5px solid var(--border-accent);display:flex;align-items:center;justify-content:center;font-size:10px">✦</div>
+          <span style="font-family:var(--font-display);font-size:16px">AI Advisor</span>
+          <span style="font-size:9px;color:var(--text-tertiary);margin-left:auto">Gemini Flash</span>
+        </div>
+        <!-- Suggested prompts -->
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+          <div style="font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:2px">Quick questions</div>
+          <div style="background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:11px;color:var(--text-secondary)">Can I afford to hire?</div>
+          <div style="background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:11px;color:var(--text-secondary)">Which client is most profitable?</div>
+          <div style="background:var(--bg-elevated);border:0.5px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:11px;color:var(--text-secondary)">What's my tax liability this quarter?</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:8px">
+          <div class="ai-bubble user" style="font-size:11px">Which client is most profitable this month?</div>
+          <div class="ai-bubble" style="font-size:11px">Reyes Digital leads with ₹43,660 invoiced and a near-100% collection rate. Klein Studio has higher invoice value but 34-day avg payment time drags your cash flow.</div>
+        </div>
+        <div class="ai-input-row" style="margin-top:10px">
+          <div class="ai-input" style="font-size:11px">Ask anything...</div>
+          <button class="btn-primary" style="padding:8px 12px;font-size:10px">Ask</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Screen 10 — Interaction states & hover map</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem">
+  <div class="card">
+    <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px">Invoice row — all states</div>
+    <!-- Default -->
+    <div style="border-radius:var(--r-md);overflow:hidden;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:0.5px solid transparent">
+        <div class="activity-dot" style="background:var(--success)"></div>
+        <span style="font-size:12px;flex:1">Reyes Digital</span>
+        <span class="mono text-xs">₹18,000</span>
+        <span class="badge badge-paid">Paid</span>
+        <span style="font-size:9px;color:var(--text-tertiary)">Default</span>
+      </div>
+    </div>
+    <!-- Hover -->
+    <div style="border-radius:var(--r-md);overflow:hidden;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(240,237,230,0.03);border:0.5px solid var(--border)">
+        <div class="activity-dot" style="background:var(--warning)"></div>
+        <span style="font-size:12px;flex:1">Klein Studio</span>
+        <span class="mono text-xs">₹32,500</span>
+        <span class="badge badge-pending">Pending</span>
+        <div style="display:flex;gap:4px"><button class="btn-ghost" style="font-size:9px;padding:3px 8px">View</button><button class="btn-primary" style="font-size:9px;padding:3px 8px">Remind</button></div>
+        <span style="font-size:9px;color:var(--text-tertiary)">Hover</span>
+      </div>
+    </div>
+    <!-- Selected -->
+    <div style="border-radius:var(--r-md);overflow:hidden;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--accent-glow);border:0.5px solid var(--border-accent)">
+        <div style="width:14px;height:14px;border-radius:3px;background:var(--accent);border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:9px;color:#0C0C0E;font-weight:700">✓</span></div>
+        <span style="font-size:12px;flex:1;color:var(--accent)">Nakamura Co.</span>
+        <span class="mono text-xs" style="color:var(--accent)">₹15,700</span>
+        <span class="badge badge-overdue">Overdue</span>
+        <span style="font-size:9px;color:var(--accent)">Selected</span>
+      </div>
+    </div>
+    <!-- Bulk action bar -->
+    <div style="background:var(--bg-elevated);border:0.5px solid var(--border-accent);border-radius:var(--r-md);padding:8px 12px;display:flex;align-items:center;gap:10px;margin-top:6px">
+      <span style="font-size:11px;color:var(--accent)">1 selected</span>
+      <button class="btn-ghost" style="font-size:10px;padding:4px 10px">Send reminder</button>
+      <button class="btn-ghost" style="font-size:10px;padding:4px 10px">Download PDF</button>
+      <button class="btn-danger" style="font-size:10px;padding:4px 10px">Mark void</button>
+      <span style="margin-left:auto;font-size:10px;color:var(--text-tertiary)">Bulk actions</span>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px">Modal — send invoice</div>
+    <div style="background:var(--bg-base);border:0.5px solid var(--border-strong);border-radius:var(--r-lg);padding:18px">
+      <div class="flex justify-between items-center mb3">
+        <p style="font-size:14px;font-weight:600">Send Invoice</p>
+        <span style="color:var(--text-tertiary);cursor:pointer;font-size:16px">×</span>
+      </div>
+      <div class="input-group"><div class="input-label">To</div><div class="input focused">sofia@reyes.co</div></div>
+      <div class="input-group"><div class="input-label">Subject</div><div class="input">Invoice INV-2026-013 from Mehta Creative</div></div>
+      <div class="input-group"><div class="input-label">Message</div>
+        <div class="input" style="height:54px;padding-top:8px;color:var(--text-secondary);font-size:11px">Hi Sofia, please find attached your invoice for June. Let me know if you have any questions.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:var(--bg-elevated);border-radius:var(--r-md);padding:8px 10px;margin-bottom:12px">
+        <div style="width:24px;height:24px;border-radius:5px;background:var(--danger-dim);display:flex;align-items:center;justify-content:center;font-size:12px">📄</div>
+        <span style="font-size:11px;flex:1">INV-2026-013.pdf</span>
+        <span class="text-xs text-secondary">84 KB</span>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-ghost" style="font-size:11px">Cancel</button>
+        <button class="btn-primary" style="font-size:11px">Send now ✈</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="section-title">Empty states & skeleton loading</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:2rem">
+  <div class="card">
+    <div class="empty-state">
+      <div class="empty-icon">⊡</div>
+      <p style="font-size:13px;font-weight:600;color:var(--text-primary)">No invoices yet</p>
+      <p style="font-size:12px;color:var(--text-secondary);text-align:center;line-height:1.5">Create your first invoice and start getting paid faster.</p>
+      <button class="btn-primary" style="margin-top:4px">+ Create Invoice</button>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-subtle);animation:pulse 1.5s ease-in-out infinite"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+          <div style="height:11px;background:var(--bg-subtle);border-radius:4px;width:60%;animation:pulse 1.5s ease-in-out infinite"></div>
+          <div style="height:9px;background:var(--bg-subtle);border-radius:4px;width:40%;animation:pulse 1.5s ease-in-out 0.2s infinite"></div>
+        </div>
+        <div style="height:20px;width:48px;background:var(--bg-subtle);border-radius:9999px;animation:pulse 1.5s ease-in-out infinite"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-subtle);animation:pulse 1.5s ease-in-out 0.1s infinite"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+          <div style="height:11px;background:var(--bg-subtle);border-radius:4px;width:50%;animation:pulse 1.5s ease-in-out 0.1s infinite"></div>
+          <div style="height:9px;background:var(--bg-subtle);border-radius:4px;width:35%;animation:pulse 1.5s ease-in-out 0.3s infinite"></div>
+        </div>
+        <div style="height:20px;width:48px;background:var(--bg-subtle);border-radius:9999px;animation:pulse 1.5s ease-in-out 0.1s infinite"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--bg-subtle);animation:pulse 1.5s ease-in-out 0.2s infinite"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+          <div style="height:11px;background:var(--bg-subtle);border-radius:4px;width:70%;animation:pulse 1.5s ease-in-out 0.2s infinite"></div>
+          <div style="height:9px;background:var(--bg-subtle);border-radius:4px;width:45%;animation:pulse 1.5s ease-in-out 0.4s infinite"></div>
+        </div>
+        <div style="height:20px;width:48px;background:var(--bg-subtle);border-radius:9999px;animation:pulse 1.5s ease-in-out 0.2s infinite"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--text-tertiary)">Skeleton loading state</div>
+  </div>
+</div>
+<style>
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>

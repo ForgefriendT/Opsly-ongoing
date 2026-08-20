@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --bg-base:        #1e1e1c;
+  --bg-sidebar:     #262623;
+  --bg-card:        #2c2c29;
+  --bg-input:       #333330;
+  --bg-hover:       #35342f;
+  --text-primary:   #e8e6de;
+  --text-secondary: #a09d93;
+  --text-muted:     #6b6860;
+  --accent:         #cc785c;
+  --accent-hover:   #d97757;
+  --accent-soft:    rgba(204,120,92,0.15);
+  --border:         #3a3833;
+  --border-focus:   #cc785c;
+  --success:        #5a9e6f;
+  --warning:        #b8892a;
+  --error:          #c0614f;
+}
+
+/* =============================================
+   OPSLY DESIGN SYSTEM (Tailwind v4 theme)
+   ============================================= */
+@theme {
+  --color-opsly-base: var(--bg-base);
+  --color-opsly-sidebar: var(--bg-sidebar);
+  --color-opsly-card: var(--bg-card);
+  --color-opsly-input: var(--bg-input);
+  --color-opsly-hover: var(--bg-hover);
+  --color-opsly-border: var(--border);
+  --color-opsly-accent: var(--accent);
+  --color-opsly-accent-hover: var(--accent-hover);
+  --color-opsly-accent-soft: var(--accent-soft);
+  --color-opsly-text: var(--text-primary);
+  --color-opsly-muted: var(--text-muted);
+  --color-opsly-secondary: var(--text-secondary);
+  --color-opsly-success: var(--success);
+  --color-opsly-warning: var(--warning);
+  --color-opsly-error: var(--error);
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Border radius — rounded corners throughout */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
+
+/* =============================================
+   BASE STYLES
+   ============================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* Smooth 200ms transitions — micro-animations */
+a, button, input, textarea, select {
+  transition: all 200ms ease;
+}
+
+/* Focus ring using accent color */
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
